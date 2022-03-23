@@ -1,24 +1,4 @@
-// Import required libraries
-#include "WiFi.h"
-#include "ESPAsyncWebServer.h"
-
-// Replace with your network credentials
-const char *ssid = "REPLACE_WITH_YOUR_SSID";
-const char *password = "REPLACE_WITH_YOUR_PASSWORD";
-
-// Web Server HTTP Authentication credentials
-const char *http_username = "admin";
-const char *http_password = "admin";
-
-const int speedLow = 5;
-const int speedMid = 4;
-const int speedHigh = 0;
-const int pump = 2;
-
-// Create AsyncWebServer object on port 80
-AsyncWebServer server(80);
-AsyncEventSource events("/events");
-
+// Main HTML web page in root url /
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
 <head>
@@ -107,19 +87,25 @@ function clearMotionAlert() {
   }, 1000);
 }
 
+
+
 if (!!window.EventSource) {
+
  var source = new EventSource('/events');
  source.addEventListener('open', function(e) {
   console.log("Events Connected");
  }, false);
+
  source.addEventListener('error', function(e) {
   if (e.target.readyState != EventSource.OPEN) {
     console.log("Events Disconnected");
   }
  }, false);
+
  source.addEventListener('message', function(e) {
   console.log("message", e.data);
  }, false);
+
  source.addEventListener('led_state', function(e) {
   console.log("led_state", e.data);
   var inputChecked;
@@ -127,23 +113,28 @@ if (!!window.EventSource) {
   else { inputChecked = false; }
   document.getElementById("led").checked = inputChecked;
  }, false);
+
  source.addEventListener('motion', function(e) {
   console.log("motion", e.data);
   document.getElementById("motion").innerHTML = e.data;
   document.getElementById("motion").style.color = "#b30000";
  }, false); 
+
  source.addEventListener('temperature', function(e) {
   console.log("temperature", e.data);
   document.getElementById("temp").innerHTML = e.data;
  }, false);
+
  source.addEventListener('humidity', function(e) {
   console.log("humidity", e.data);
   document.getElementById("humi").innerHTML = e.data;
  }, false);
+
  source.addEventListener('light', function(e) {
   console.log("light", e.data);
   document.getElementById("light").innerHTML = e.data;
  }, false);
+ 
 }</script>
 </body>
 </html>)rawliteral";
