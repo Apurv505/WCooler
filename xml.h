@@ -1,0 +1,26 @@
+const char* win_xml PROGMEM = R"=====(<?xml version="1.0" ?>
+<vs>
+    <ac>255</ac>
+    <cl>255</cl>
+    <cl>160</cl>
+    <cl>0</cl>
+    <cs>0</cs>
+    <cs>0</cs>
+    <cs>0</cs>
+    <ns>0</ns>
+    <nr>1</nr>
+    <nl>0</nl>
+    <nf>1</nf>
+    <nd>60</nd>
+    <nt>0</nt>
+    <fx>27</fx>
+    <sx>128</sx>
+    <ix>128</ix>
+    <fp>53</fp>
+    <wv>-1</wv>
+    <ws>0</ws>
+    <ps>0</ps>
+    <cy>0</cy>
+    <ds>WCooler</ds>
+    <ss>0</ss>
+</vs>)=====";

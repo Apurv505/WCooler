@@ -1,0 +1,5 @@
+mdns search in esp8266 for remote
+multiwifimanager
+--ota
+unsphagettify the code
+timer for fan and pump
