@@ -37,11 +37,10 @@ void setup()
   MDNS.addService("http", "tcp", 80);
   MDNS.addService("wled", "tcp", 80);
 
-otaSetup();
+  otaSetup();
+  ArduinoOTA.begin();
+  urlSetup();
 
-ArduinoOTA.begin();
-urlSetup();
-  
   // EVENTS-----------------------
   events.onConnect([](AsyncEventSourceClient *client)
                    {
@@ -58,6 +57,8 @@ urlSetup();
   server.begin();
 }
 
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------//
 void loop()
 {
   MDNS.update();

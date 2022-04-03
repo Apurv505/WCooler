@@ -9,8 +9,8 @@
 
 
 // Replace with your network credentials
-const char *ssid = "M";
-const char *password = "";
+const char *ssid = "yummy!!!";
+const char *password = "rajput@123456";
 
 // Web Server HTTP Authentication credentials
 const char *http_username = "admin";
