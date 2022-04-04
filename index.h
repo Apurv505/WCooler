@@ -1,4 +1,5 @@
 const char index_html[] PROGMEM = R"rawliteral(
+  
 <!DOCTYPE HTML>
 <html>
 
@@ -10,9 +11,17 @@ const char index_html[] PROGMEM = R"rawliteral(
     integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <style>
     html {
-      font-family: Arial;
+      font-family: 'Times New Roman', Times, serif;
       display: inline-block;
       text-align: center;
+    }
+
+    h2 {
+      color: rgb(209, 90, 0);
+      padding: 10px;
+      text-align: center;
+      font-size: 30px;
+      font-family: 'Times New Roman', Times, serif;
     }
 
     h3 {
@@ -22,6 +31,7 @@ const char index_html[] PROGMEM = R"rawliteral(
 
     h4 {
       font-size: 1.2rem;
+      color: rgb(107, 160, 251)
     }
 
     p {
@@ -30,6 +40,9 @@ const char index_html[] PROGMEM = R"rawliteral(
 
     body {
       margin: 0;
+      background-color: black;
+      color: white;
+
     }
 
     /* .switch {position: relative; display: inline-block; width: 60px; height: 48px; }
@@ -56,8 +69,8 @@ const char index_html[] PROGMEM = R"rawliteral(
     }
 
     .card {
-      background-color: white;
-      box-shadow: 2px 2px 12px 1px rgba(140, 140, 140, .5);
+      background-color: black;
+      box-shadow: 2px 2px 12px 1px rgba(47, 180, 247, 0.722);
     }
 
     .cards {
@@ -72,7 +85,7 @@ const char index_html[] PROGMEM = R"rawliteral(
       -webkit-appearance: none;
       margin: 14px;
       height: 20px;
-      background: #ccc;
+      background: rgb(255, 170, 1);
       outline: none;
       opacity: 0.8;
       -webkit-transition: .2s;
@@ -150,7 +163,7 @@ const char index_html[] PROGMEM = R"rawliteral(
       width: 25px;
       height: 25px;
       border-radius: 50%;
-      background: #04AA6D;
+      background: #1d04aa;
       cursor: pointer;
     }
 
@@ -205,11 +218,11 @@ const char index_html[] PROGMEM = R"rawliteral(
     }
 
     input:checked+.button {
-      background-color: #2196F3;
+      background-color: #f6f7f7;
     }
 
     input:focus+.button {
-      box-shadow: 0 0 1px #2196F3;
+      box-shadow: 0 0 1px #ececec;
     }
 
     input:checked+.button:before {
@@ -281,11 +294,11 @@ const char index_html[] PROGMEM = R"rawliteral(
           <p class="reading"><span id="light">OFF</span></p>
         </div>
       </div>
-    
+
     </div>
   </div>
 
-  
+
   <script>
     console.log("Loading page");
     var fan = document.getElementById("fan");
@@ -299,7 +312,7 @@ const char index_html[] PROGMEM = R"rawliteral(
       var url = "/output?fan=" + fan.value;
       xhr.open("GET", url, true);
       xhr.send();
-      console.log("fan: "+fan.value)
+      console.log("fan: " + fan.value)
       speedOutput.innerHTML = fan.value;
     }
 
@@ -308,7 +321,7 @@ const char index_html[] PROGMEM = R"rawliteral(
       var url = "/output?pump=" + pump.value;
       xhr.open("GET", url, true);
       xhr.send();
-      console.log("pump: "+pump.value)
+      console.log("pump: " + pump.value)
 
     }
 
@@ -368,6 +381,6 @@ const char index_html[] PROGMEM = R"rawliteral(
     console.log("Loaded page");
   </script>
 </body>
-
 </html>
+
 )rawliteral";
