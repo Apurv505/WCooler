@@ -21,7 +21,7 @@ unsigned long debounceDelay = 500;  // the debounce time; increase if the output
 unsigned long lastEventUpdateTime = 0;
 unsigned long eventUpdateInterval = 1000;
 
-const int speedLow = 5;
+const int direction = 5;
 const int speedMid = 4;
 const int speedHigh = 0;
 const int pump = 2;
@@ -30,6 +30,7 @@ const int ledPin = 16;
 
 int fanSpeed = 0;
 int pumpSpeed = 0;
+int direction = 0;
 
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
@@ -50,14 +51,14 @@ String outputState(int gpio)
 
 void pinInit()
 {
-  pinMode(speedLow, OUTPUT);
+  pinMode(direction, OUTPUT);
   pinMode(speedMid, OUTPUT);
   pinMode(speedHigh, OUTPUT);
   pinMode(pump, OUTPUT);
   pinMode(buttonPin, INPUT_PULLUP);
   pinMode(ledPin, OUTPUT);
 
-  digitalWrite(speedLow, HIGH); // Off on HIGH logic. Inverted logic of ESP8266
+  digitalWrite(direction, HIGH); // Off on HIGH logic. Inverted logic of ESP8266
   digitalWrite(speedMid, HIGH); // Turns off all relays at restart
   digitalWrite(speedHigh, HIGH);
   digitalWrite(ledPin, HIGH);

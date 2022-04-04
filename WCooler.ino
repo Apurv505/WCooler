@@ -44,19 +44,18 @@ void setup()
   // EVENTS-----------------------
   events.onConnect([](AsyncEventSourceClient *client)
                    {
-    if(client->lastId()){
-      Serial.printf("Client reconnected! Last message ID that it got is: %u\n", client->lastId());
-    }
-    // send event with message "hello!", id current millis and set reconnect delay to 1 second
-    client->send("hello!",NULL,millis(),1000); 
-    events.send(String(fanSpeed).c_str(),"fan_speed",millis()); });
+                     if (client->lastId())
+                     {
+                       Serial.printf("Client reconnected! Last message ID that it got is: %u\n", client->lastId());
+                     }
+                     // send event with message "hello!", id current millis and set reconnect delay to 1 second
+                     client->send("hello!", NULL, millis(), 1000); });
 
   server.addHandler(&events);
 
   // Start server
   server.begin();
 }
-
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------------//
 void loop()
@@ -66,8 +65,9 @@ void loop()
 
   if ((millis() - lastEventUpdateTime) > eventUpdateInterval)
   {
-    events.send(String(fanSpeed).c_str(), "fan_speed", millis());
-    events.send(String(pumpSpeed).c_str(), "pump_speed", millis());
+    events.send(String(fanSpeed).c_str(), "fan", millis());
+    events.send(String(pumpSpeed).c_str(), "pump", millis());
+    events.send(String(direction).c_str(), "direction", millis());
 
     lastEventUpdateTime = millis();
   }

@@ -239,6 +239,29 @@
   <div class="content">
     <div class="cards">
       <!-- %BUTTONPLACEHOLDER% -->
+
+
+      <div class="card card-motion">
+        <h4><i class="fas fa-wind"></i> FAN</h4>
+        <div class="slidecontainer">
+          <input type="range" min="0" max="2" value="0" class="slider" onchange="onFanChange()" id="fan">
+          <p id="speedDisplay">--</p>
+        </div>
+      </div>
+
+      <div class="card card-motion">
+        <h4><i class="fas fa-snowflake"></i> PUMP</h4>
+        <div class="slidecontainer">
+          <input type="range" min="0" max="1" value="0" class="slider" onchange="onPumpChange()" id="pump">
+        </div>
+      </div>
+      <div class="card card-motion">
+        <h4><i class="fas fa-door-open"></i> DIRECTION</h4>
+        <div class="slidecontainer">
+          <input type="range" min="0" max="1" value="0" class="slider" onchange="onDirectionChange()" id="direction">
+        </div>
+      </div>
+
       <div class="card card-bme">
         <h4><i class="fas fa-chart-bar"></i> TEMPERATURE</h4>
         <div>
@@ -257,90 +280,92 @@
           <p class="reading"><span id="light">OFF</span></p>
         </div>
       </div>
+    
+    </div>
+  </div>
 
-      <div class="card card-motion">
-        <h4><i class="fas fa-wind"></i> FAN</h4>
-        <div class="slidecontainer">
-          <input type="range" min="0" max="3" value="0" class="slider" onchange="onFanChange()" id="fan">
-          <p id="speedDisplay">--</p>
-        </div>
-      </div>
-
-      <div class="card card-motion">
-        <h4><i class="fas fa-snowflake"></i> PUMP</h4>
-        <div class="slidecontainer">
-          <input type="range" min="0" max="1" value="0" class="slider" onchange="onPumpChange()" id="pump">
-          
-        </div>
-
-      </div>
+  
+  <script>
+    console.log("Loading page");
+    var fan = document.getElementById("fan");
+    var pump = document.getElementById("pump");
+    var direction = document.getElementById("direction");
+    var speedOutput = document.getElementById("speedDisplay");
 
 
-      <script>
-        console.log("Loading page");
-        var fan = document.getElementById("fan");
-        var pump = document.getElementById("pump");
-        var speedOutput = document.getElementById("speedDisplay");
+    function onFanChange() {
+      var xhr = new XMLHttpRequest();
+      var url = "/output?fan=" + fan.value;
+      xhr.open("GET", url, true);
+      xhr.send();
+      console.log("fan: "+fan.value)
+      speedOutput.innerHTML = fan.value;
+    }
 
+    function onPumpChange() {
+      var xhr = new XMLHttpRequest();
+      var url = "/output?pump=" + pump.value;
+      xhr.open("GET", url, true);
+      xhr.send();
+      console.log("pump: "+pump.value)
 
-        function onFanChange() {
-          var xhr = new XMLHttpRequest();
-          var url =  "/output?fan="+ fan.value;
-          xhr.open("GET", url, true);
-          xhr.send();
-          console.log(fan.value)
-          speedOutput.innerHTML = fan.value;
+    }
+
+    function onDirectionChange() {
+      var xhr = new XMLHttpRequest();
+      var url = "/output?direction=" + direction.value;
+      xhr.open("GET", url, true);
+      xhr.send();
+      console.log("direction: " + direction.value)
+
+    }
+
+    if (!!window.EventSource) {
+
+      var source = new EventSource('/events');
+
+      source.addEventListener('open', function (e) {
+        console.log("Events Connected");
+      }, false);
+
+      source.addEventListener('error', function (e) {
+        if (e.target.readyState != EventSource.OPEN) {
+          console.log("Events Disconnected");
         }
+      }, false);
 
-        function onPumpChange() {
-          var xhr = new XMLHttpRequest();
-          var url =  "/output?pump="+ pump.value;
-          xhr.open("GET", url, true);
-          xhr.send();
-          console.log(pump.value)
-          
-        }
+      source.addEventListener('message', function (e) {
+        console.log("message", e.data);
+      }, false);
 
-        if (!!window.EventSource) {
+      source.addEventListener('fan', function (e) {
+        console.log("fan_speed", e.data);
+        document.getElementById("fan").value = e.data;
+        document.getElementById("speedDisplay").innerHTML = e.data;
+      }, false);
 
-          var source = new EventSource('/events');
+      // source.addEventListener('light', function (e) {
+      //   console.log("light: ", e.data);
+      //   document.getElementById("light").value = e.data;
 
-          source.addEventListener('open', function (e) {
-            console.log("Events Connected");
-          }, false);
+      // }, false);
 
-          source.addEventListener('error', function (e) {
-            if (e.target.readyState != EventSource.OPEN) {
-              console.log("Events Disconnected");
-            }
-          }, false);
+      source.addEventListener('pump', function (e) {
+        console.log("pump_speed: ", e.data);
+        document.getElementById("pump").value = e.data;
 
-          source.addEventListener('message', function (e) {
-            console.log("message", e.data);
-          }, false);
+      }, false);
 
-          source.addEventListener('fan_speed', function (e) {
-          console.log("fan_speed", e.data);       
-          document.getElementById("fan").value = e.data;
-          document.getElementById("speedDisplay").innerHTML = e.data;
-        }, false);
+      source.addEventListener('direction', function (e) {
+        console.log("pump_speed: ", e.data);
+        document.getElementById("pump").value = e.data;
 
-         source.addEventListener('light', function (e) {
-          console.log("light: ", e.data);       
-          document.getElementById("light").value = e.data;
-          
-        }, false);
+      }, false);
 
-         source.addEventListener('pump_speed', function (e) {
-          console.log("pump_speed: ", e.data);       
-          document.getElementById("pump").value = e.data;
-          
-        }, false);
+    }
 
-        }
-
-        console.log("Loaded page");
-      </script>
+    console.log("Loaded page");
+  </script>
 </body>
 
 </html>
