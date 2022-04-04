@@ -6,7 +6,9 @@ void urlSetup(){
     server.on("/win", HTTP_GET, [](AsyncWebServerRequest *request)
             {
     Serial.println("Device being searched via mDNS dicovery");
-    request->send_P(200, "text/xml", win_xml); });
+    wledParser(request);
+    });
+    
 
 server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send_P(200, "text/html", index_html); });
@@ -35,7 +37,7 @@ server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
       else if (fanSpeed == 1)
       {
         digitalWrite(speedMid, HIGH);
-        digitalWrite(speedHigh, HIGH);
+        digitalWrite(speedHigh, LOW);
         digitalWrite(ledPin, LOW);
         Serial.println("Got speed 1");
         request->send(200, "text/plain", "OK");
@@ -63,16 +65,17 @@ server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
     
     if (request->hasParam("pump")) {
       pumpSpeed = request->getParam("pump")->value().toInt();
-      digitalWrite(pump, !pumpSpeed);
+      digitalWrite(pumpPin, !pumpSpeed);
       request->send(200, "text/plain", "OK");
     }
 
     if (request->hasParam("direction")) {
       direction = request->getParam("direction")->value().toInt();
-      digitalWrite(direction, !direction);
+      digitalWrite(directionPin, !direction);
       request->send(200, "text/plain", "OK");
     }
     request->send(200, "text/plain", "Failed"); });
 
     
 }
+

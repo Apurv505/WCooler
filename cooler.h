@@ -21,10 +21,10 @@ unsigned long debounceDelay = 500;  // the debounce time; increase if the output
 unsigned long lastEventUpdateTime = 0;
 unsigned long eventUpdateInterval = 1000;
 
-const int direction = 5;
-const int speedMid = 4;
-const int speedHigh = 0;
-const int pump = 2;
+const int directionPin = 0;
+const int speedMid = 5;
+const int speedHigh = 4;
+const int pumpPin = 2;
 const int buttonPin = 13;
 const int ledPin = 16;
 
@@ -35,6 +35,7 @@ int direction = 0;
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
 AsyncEventSource events("/events");
+
 
 
 String outputState(int gpio)
@@ -51,18 +52,18 @@ String outputState(int gpio)
 
 void pinInit()
 {
-  pinMode(direction, OUTPUT);
+  pinMode(directionPin, OUTPUT);
   pinMode(speedMid, OUTPUT);
   pinMode(speedHigh, OUTPUT);
-  pinMode(pump, OUTPUT);
+  pinMode(pumpPin, OUTPUT);
   pinMode(buttonPin, INPUT_PULLUP);
   pinMode(ledPin, OUTPUT);
 
-  digitalWrite(direction, HIGH); // Off on HIGH logic. Inverted logic of ESP8266
+  digitalWrite(directionPin, HIGH); // Off on HIGH logic. Inverted logic of ESP8266
   digitalWrite(speedMid, HIGH); // Turns off all relays at restart
   digitalWrite(speedHigh, HIGH);
   digitalWrite(ledPin, HIGH);
-  digitalWrite(pump, !pumpSpeed);
+  digitalWrite(pumpPin, !pumpSpeed);
 }
 
 void otaSetup(){
@@ -134,3 +135,10 @@ void otaSetup(){
     // }
     return String();
   }
+
+
+
+void wledParser(AsyncWebServerRequest *request){
+  if(request->hasParam("/"))
+  request->send_P(200, "text/html", win_xml);
+}

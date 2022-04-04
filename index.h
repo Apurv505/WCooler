@@ -358,8 +358,8 @@ const char index_html[] PROGMEM = R"rawliteral(
       }, false);
 
       source.addEventListener('direction', function (e) {
-        console.log("pump_speed: ", e.data);
-        document.getElementById("pump").value = e.data;
+        console.log("direction: ", e.data);
+        document.getElementById("direction").value = e.data;
 
       }, false);
 
