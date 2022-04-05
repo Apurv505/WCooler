@@ -138,7 +138,3 @@ void otaSetup(){
 
 
 
-void wledParser(AsyncWebServerRequest *request){
-  if(request->hasParam("/"))
-  request->send_P(200, "text/html", win_xml);
-}

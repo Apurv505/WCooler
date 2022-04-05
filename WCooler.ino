@@ -49,7 +49,10 @@ void setup()
                        Serial.printf("Client reconnected! Last message ID that it got is: %u\n", client->lastId());
                      }
                      // send event with message "hello!", id current millis and set reconnect delay to 1 second
-                     client->send("hello!", NULL, millis(), 1000); });
+                    client->send("hello!", NULL, millis(), 1000); 
+                    events.send(String(fanSpeed).c_str(), "fan", millis());
+                    events.send(String(pumpSpeed).c_str(), "pump", millis());
+                    events.send(String(direction).c_str(), "direction", millis()); });
 
   server.addHandler(&events);
 
@@ -63,20 +66,20 @@ void loop()
   MDNS.update();
   ArduinoOTA.handle();
 
-  if ((millis() - lastEventUpdateTime) > eventUpdateInterval)
-  {
-    events.send(String(fanSpeed).c_str(), "fan", millis());
-    events.send(String(pumpSpeed).c_str(), "pump", millis());
-    events.send(String(direction).c_str(), "direction", millis());
+  // if ((millis() - lastEventUpdateTime) > eventUpdateInterval)
+  // {
+  //   events.send(String(fanSpeed).c_str(), "fan", millis());
+  //   events.send(String(pumpSpeed).c_str(), "pump", millis());
+  //   events.send(String(direction).c_str(), "direction", millis());
 
-    lastEventUpdateTime = millis();
-  }
+  //   lastEventUpdateTime = millis();
+  // }
 
   // events.send(String(bme.readTemperature()).c_str(),"temperature",millis());
   // static unsigned long lastEventTime = millis();
   // static const unsigned long EVENT_INTERVAL_MS = 10000;
   // read the state of the switch into a local variable
-  int reading = digitalRead(buttonPin);
+
   if ((millis() - lastDebounceTime) > debounceDelay)
   {
     if (digitalRead(buttonPin) == LOW)
