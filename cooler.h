@@ -19,8 +19,8 @@ const int KNOWN_SSID_COUNT = sizeof(KNOWN_SSID) / sizeof(KNOWN_SSID[0]); // numb
 
 
 // Replace with your network credentials
-const char *ssid = "yummy!!!";
-const char *password = "rajput@123456";
+// const char *ssid = "yummy!!!";
+// const char *password = "rajput@123456";
 
 // Web Server HTTP Authentication credentials
 const char *http_username = "admin";
