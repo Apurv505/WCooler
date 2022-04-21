@@ -22,17 +22,19 @@ void setup()
   //   attachInterrupt(digitalPinToInterrupt(pinSense), detectsMovement, CHANGE);
 
   // Connect to Wi-Fi
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED)
-  {
-    delay(1000);
-    Serial.println("Connecting to WiFi..");
-  }
-  // Print ESP32 Local IP Address
-  Serial.println(WiFi.localIP());
+  // WiFi.mode(WIFI_STA);
+  // WiFi.begin(ssid, password);
+  // while (WiFi.status() != WL_CONNECTED)
+  // {
+  //   delay(1000);
+  //   Serial.println("Connecting to WiFi..");
+  // }
+  // // Print ESP32 Local IP Address
+  // Serial.println(WiFi.localIP());
 
-  MDNS.begin("WCooler", WiFi.localIP());
+  wifiInit();
+
+  MDNS.begin("BlynkWCooler", WiFi.localIP());
   Serial.println("mDNS responder started");
   MDNS.addService("http", "tcp", 80);
   MDNS.addService("wled", "tcp", 80);
@@ -65,6 +67,7 @@ void loop()
 {
   MDNS.update();
   ArduinoOTA.handle();
+  Blynk.run();
 
   // if ((millis() - lastEventUpdateTime) > eventUpdateInterval)
   // {
@@ -72,6 +75,14 @@ void loop()
   //   events.send(String(pumpSpeed).c_str(), "pump", millis());
   //   events.send(String(direction).c_str(), "direction", millis());
 
+  //   lastEventUpdateTime = millis();
+  // }
+
+  //   if ((millis() - lastEventUpdateTime) > eventUpdateInterval)
+  // {
+  //   Blynk.virtualWrite(V0, fanSpeed);
+  //   Blynk.virtualWrite(V1, pumpSpeed);
+  //   Blynk.virtualWrite(V2, direction);
   //   lastEventUpdateTime = millis();
   // }
 

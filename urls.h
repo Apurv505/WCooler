@@ -25,61 +25,27 @@ server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
    
     if (request->hasParam("fan")) {
       fanSpeed = request->getParam("fan")->value().toInt();
-      
-      if(fanSpeed == 0){
-        digitalWrite(speedMid, HIGH);
-        digitalWrite(speedHigh,HIGH);
-        digitalWrite(ledPin, HIGH);
-        events.send(String(fanSpeed).c_str(), "fan", millis());
-        Serial.println("Got speed 0");
-        request->send(200, "text/plain", "OK");
-      
-      }
-      else if (fanSpeed == 1)
-      {
-        digitalWrite(speedMid, HIGH);
-        digitalWrite(speedHigh, LOW);
-        digitalWrite(ledPin, LOW);
-        events.send(String(fanSpeed).c_str(), "fan", millis());
-        Serial.println("Got speed 1");
-        request->send(200, "text/plain", "OK");
-      }
-      else if (fanSpeed == 2)
-      {
-        digitalWrite(speedMid, LOW);
-        digitalWrite(speedHigh, HIGH);
-        digitalWrite(ledPin, LOW);
-        events.send(String(fanSpeed).c_str(), "fan", millis());
-        Serial.println("Got speed 2");
-        request->send(200, "text/plain", "OK");
-      }
-      // else if (fanSpeed == 3)
-      // {
-      //   digitalWrite(speedMid, HIGH);
-      //   digitalWrite(speedHigh, LOW);
-      //   digitalWrite(ledPin, LOW);
-      //   Serial.println("Got speed 3");
-      //   request->send(200, "text/plain", "OK");
-      // }
-     
+      updateSpeed();
+      Blynk.virtualWrite(V0, fanSpeed);
       request->send(200, "text/plain", "OK");
       
     }
     
     if (request->hasParam("pump")) {
       pumpSpeed = request->getParam("pump")->value().toInt();
-      digitalWrite(pumpPin, !pumpSpeed);
-      events.send(String(pumpSpeed).c_str(), "pump", millis());
+      updatePump();
+      Blynk.virtualWrite(V1, pumpSpeed);
       request->send(200, "text/plain", "OK");
     }
 
     if (request->hasParam("direction")) {
       direction = request->getParam("direction")->value().toInt();
-      digitalWrite(directionPin, !direction);
-      events.send(String(direction).c_str(), "direction", millis());
+      updateDirection();
+      Blynk.virtualWrite(V2, direction);  
       request->send(200, "text/plain", "OK");
     }
     request->send(200, "text/plain", "Failed"); });
+  
 
     
 }
