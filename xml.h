@@ -21,6 +21,6 @@ const char* win_xml PROGMEM = R"=====(<?xml version="1.0" ?>
     <ws>0</ws>
     <ps>0</ps>
     <cy>0</cy>
-    <ds>BlynkWCooler</ds>
+    <ds>BlynkWCoolerTest</ds>
     <ss>0</ss>
 </vs>)=====";

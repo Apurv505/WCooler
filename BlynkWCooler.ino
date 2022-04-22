@@ -32,9 +32,9 @@ void setup()
   // // Print ESP32 Local IP Address
   // Serial.println(WiFi.localIP());
 
-  wifiInit();
+  wifiConnect();
 
-  MDNS.begin("BlynkWCooler", WiFi.localIP());
+  MDNS.begin("Blynk", WiFi.localIP());
   Serial.println("mDNS responder started");
   MDNS.addService("http", "tcp", 80);
   MDNS.addService("wled", "tcp", 80);
@@ -68,6 +68,11 @@ void loop()
   MDNS.update();
   ArduinoOTA.handle();
   Blynk.run();
+
+  if(!WiFi.isConnected())
+  {
+    wifiConnect();
+  }
 
   // if ((millis() - lastEventUpdateTime) > eventUpdateInterval)
   // {

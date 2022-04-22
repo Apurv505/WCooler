@@ -41,11 +41,24 @@ const int ledPin = 16;
 int fanSpeed = 0;
 int pumpSpeed = 0;
 int direction = 0;
+int timesWifiReconnect = 100;
 
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
 AsyncEventSource events("/events");
 
+void wifiInit();
+
+void wifiConnect(){
+  for(int i=0; i<timesWifiReconnect; i++){
+    Serial.println("Inside wifiConnect");
+    wifiInit();
+    Serial.println("Out of wifiinit in wificonnect");
+    if(WiFi.isConnected()) return;
+    delay(1000);
+
+  }
+}
 
 void wifiInit(){
   boolean wifiFound = false;
@@ -67,7 +80,9 @@ int nbVisibleNetworks = WiFi.scanNetworks();
 Serial.println(F("Scan Completed"));
 if (nbVisibleNetworks == 0) {
 Serial.println(F("No networks found. Reset to try again"));
-while (true); // no need to go further, hang in there, will auto launch the Soft WDT reset
+// while (true); // no need to go further, hang in there, will auto launch the Soft WDT reset
+// wifi.init();
+return;
 }
 
 // ----------------------------------------------------------------
@@ -97,7 +112,8 @@ if (wifiFound) break; // break from the "for each visible network" loop
 
 if (!wifiFound) {
 Serial.println(F("No Known Network identified. Reset to try again"));
-while (true);
+// while (true);
+return;
 
 }
 

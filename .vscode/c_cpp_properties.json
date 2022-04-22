@@ -19,7 +19,7 @@
             "includePath": [
                 "/home/pinkpanther/.arduino15/packages/esp8266/hardware/esp8266/3.0.0/tools/sdk/include",
                 "/home/pinkpanther/.arduino15/packages/esp8266/hardware/esp8266/3.0.0/tools/sdk/lwip2/include",
-                "/home/pinkpanther/Desktop/GitHub/BlynkWcooler/build/core",
+                "/home/pinkpanther/Desktop/GitHub/BlynkWCooler/build/core",
                 "/home/pinkpanther/.arduino15/packages/esp8266/hardware/esp8266/3.0.0/cores/esp8266",
                 "/home/pinkpanther/.arduino15/packages/esp8266/hardware/esp8266/3.0.0/variants/nodemcu",
                 "/home/pinkpanther/Arduino/libraries/Blynk/src",
